@@ -539,6 +539,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.PlayerMovementController
   _moveVelocity: 10
+  _dashTime: 0.1
+  _dashDistance: 4
+  _dashCooldown: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
