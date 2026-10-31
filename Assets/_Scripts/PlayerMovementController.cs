@@ -26,7 +26,7 @@ namespace Game
 			_playerInput.Disable();
 		}
 
-		private void Update()
+		private void FixedUpdate()
 		{
 			var moveDir = _playerInput.Player.Move.ReadValue<Vector2>().normalized;
 			_rigidbody.linearVelocity = new Vector3(moveDir.x, 0, moveDir.y) * _moveVelocity;
