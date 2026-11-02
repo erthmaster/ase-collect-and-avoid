@@ -9,7 +9,8 @@ namespace Game
 
 		private Transform _currentTarget;
 		private readonly List<Transform> _lastPatrolPoints = new();
-			
+
+		
 		public override void OnEnter()
 		{
 			FindTargetAndMove();
@@ -17,11 +18,11 @@ namespace Game
 
 		public override void OnUpdate()
 		{
-			Debug.Log($"Moving to: {_currentTarget.name}");
-			Debug.Log($"Last Patrol Points: {_lastPatrolPoints.Count}");
+			// Debug.Log($"Moving to: {_currentTarget.name}");
+			// Debug.Log($"Last Patrol Points: {_lastPatrolPoints.Count}");
 			if (Vector3.Distance(_currentTarget.position, EnemyAI.transform.position) < 1)
 			{
-				Debug.Log("Retarget");
+				// Debug.Log("Retarget");
 				FindTargetAndMove();
 			}
 		}

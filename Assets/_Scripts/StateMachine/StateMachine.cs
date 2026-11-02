@@ -17,7 +17,20 @@ namespace Game
 		
 		public void Update()
 		{
-			_currentState.OnUpdate();
+			if(_currentState != null)
+				_currentState.OnUpdate();
+		}
+
+		private void FixedUpdate()
+		{
+			if(_currentState != null)
+				_currentState.OnFixedUpdate();
+		}
+
+		private void OnDrawGizmos()
+		{
+			if(_currentState != null)
+				_currentState.OnGizmosDraw();
 		}
 	}
 }
