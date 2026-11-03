@@ -6,13 +6,6 @@ using UnityEngine.SceneManagement;
 
 namespace Game
 {
-	public enum GameState
-	{
-		Playing,
-		GameOver,
-		Victory,
-	}
-	
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField] private int _currentScore;
