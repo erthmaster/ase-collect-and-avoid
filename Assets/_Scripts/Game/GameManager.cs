@@ -23,6 +23,8 @@ namespace Game
 		[SerializeField] private GameObject _victoryText;
 		[SerializeField] private GameObject _loseText;
 		[SerializeField] private TMP_Text _scoreText;
+		
+		[SerializeField] private AudioSource _audioSource;
 
 		private void Awake()
 		{
@@ -47,6 +49,8 @@ namespace Game
 			_currentScore++;
 			Destroy(collectible.gameObject);
 			UpdateScore();
+			
+			_audioSource.Play();
 		}
 		
 		private void OnEnemyCollided(EnemyAI enemyAI)
