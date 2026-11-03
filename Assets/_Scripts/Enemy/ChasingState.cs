@@ -7,6 +7,11 @@ namespace Game
 		public ChasingState(StateMachine machine, EnemyAI enemyAI) : base(machine, enemyAI) { }
 		private Vector3 _lastPlayerPos;
 
+		public override void OnEnter()
+		{
+			EnemyAI.NavMeshAgent.speed = EnemyAI.ChasingSpeed;
+		}
+
 		public override void OnUpdate()
 		{
 			if (EnemyAI.IsPlayerDetected)

@@ -14,6 +14,7 @@ namespace Game
 		public override void OnEnter()
 		{
 			FindTargetAndMove();
+			EnemyAI.NavMeshAgent.speed = EnemyAI.PatrollingSpeed;
 		}
 
 		public override void OnUpdate()

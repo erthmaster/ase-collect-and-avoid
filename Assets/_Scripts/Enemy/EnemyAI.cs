@@ -9,6 +9,8 @@ namespace Game
 	public class EnemyAI : MonoBehaviour
 	{
 		[field: SerializeField] public float PlayerDetectionRadius { get; private set; } = 10;
+		[field:SerializeField] public float PatrollingSpeed { get; private set; }
+		[field:SerializeField] public float ChasingSpeed { get; private set; }
 		[SerializeField] private MeshRenderer _redEyesRenderer;
 		
 		private PatrolState _patrolState;
