@@ -32,3 +32,6 @@ Had a fun time implementing such an enemy AI first time. A lot of time was spent
 
 Known bugs:
 - Coin pickup sound plays with latency. It's not very noticeable though.
+
+Google drive with windows x86_64 build and screen captures: 
+https://drive.google.com/drive/folders/1CPD2YacdVHaua5_91vtJSkeTA4rTm9ow?usp=sharing
