@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.EnemyAI
   <PlayerDetectionRadius>k__BackingField: 10
   <PatrollingSpeed>k__BackingField: 7
-  <ChasingSpeed>k__BackingField: 12
+  <ChasingSpeed>k__BackingField: 10
   _redEyesRenderer: {fileID: 3686811292037702674}
 --- !u!114 &6631932036241081008
 MonoBehaviour:
