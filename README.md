@@ -10,7 +10,7 @@ Controls:
 
 3rd party assets used:
 Coins pickup effect: https://pixabay.com/sound-effects/film-special-effects-coin-257878/
-PrimeTween: 
+PrimeTween: https://assetstore.unity.com/packages/tools/animation/primetween-high-performance-animations-and-sequences-252960
 
 Scripts:
 - StateMahine.cs - a MonoBehaviour class that controls its current State and performs State transitions based on conditions.
