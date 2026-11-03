@@ -14,32 +14,26 @@ namespace Game
 		
 		private Vector3 _moveDirection;
 		private Rigidbody _rigidbody;
-		private PlayerInput _playerInput;
+		private PlayerInput.PlayerActions _playerInput;
 
 		private float _currentDashCooldown;
 		private float _currentDashTime;
 		private bool _isDashing;
 		private Vector3 _moveDirectionBeforeDash;
 
+		public void Init(PlayerInput.PlayerActions input)
+		{
+			_playerInput = input;
+		}
+		
 		private void Awake()
 		{
-			_playerInput = new();
 			_rigidbody = GetComponent<Rigidbody>();
-		}
-
-		private void OnEnable()
-		{
-			_playerInput.Enable();
-		}
-
-		private void OnDisable()
-		{
-			_playerInput.Disable();
 		}
 
 		private void Update()
 		{
-			if (_playerInput.Player.Dash.WasPressedThisFrame() && _currentDashCooldown !<= 0)
+			if (_playerInput.Dash.WasPressedThisFrame() && _currentDashCooldown !<= 0)
 			{
 				_isDashing = true;
 				_currentDashTime = _dashTime;
@@ -50,7 +44,7 @@ namespace Game
 
 		private void FixedUpdate()
 		{
-			_moveDirection = _playerInput.Player.Move.ReadValue<Vector2>().normalized;
+			_moveDirection = _playerInput.Move.ReadValue<Vector2>().normalized;
 
 			if (!_isDashing)
 			{

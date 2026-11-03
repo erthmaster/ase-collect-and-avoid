@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Game
@@ -12,17 +13,27 @@ namespace Game
 		[SerializeField] private int _targetScore;
 		[SerializeField] private PlayerCollisionDetector _collisionDetector;
 		
-		[SerializeField] private GameObject _gameOverPanel;
+		[SerializeField] private GameObject _gameMenuPanel;
+		[SerializeField] private GameObject _pausedText;
 		[SerializeField] private GameObject _victoryText;
 		[SerializeField] private GameObject _loseText;
 		[SerializeField] private TMP_Text _scoreText;
 		
 		[SerializeField] private AudioSource _audioSource;
 
+		private PlayerInput.UIActions _uiInput;
+		private bool _isGamePaused;
+
+		public void Init(PlayerInput.UIActions input)
+		{
+			_uiInput = input;
+		}
+
 		private void Awake()
 		{
-			_gameOverPanel.SetActive(false);
+			_gameMenuPanel.SetActive(false);
 			UpdateScore();
+			_uiInput.Pause.performed += _ => SetGamePaused(!_isGamePaused);
 		}
 
 		private void OnEnable()
@@ -36,7 +47,7 @@ namespace Game
 			_collisionDetector.CollectibleCollided -= OnCollisionCollision;
 			_collisionDetector.EnemyCollided -= OnEnemyCollided;
 		}
-
+		
 		private void OnCollisionCollision(Collectible collectible)
 		{
 			_currentScore++;
@@ -65,13 +76,24 @@ namespace Game
 		{
 			Time.timeScale = 0;
 			
-			_gameOverPanel.SetActive(true);
+			_gameMenuPanel.SetActive(true);
 			_victoryText.SetActive(isVictory);
 			_loseText.SetActive(!isVictory);
 		}
 
+		public void SetGamePaused(bool isPause)
+		{
+			_isGamePaused = isPause;
+			
+			Time.timeScale = isPause ? 0 : 1;
+			
+			_gameMenuPanel.SetActive(isPause);
+			_pausedText.SetActive(isPause);
+		}
+
 		public void RestartGame()
 		{
+			Time.timeScale = 1;
 			SceneManager.LoadScene(0);
 		}
 	}
