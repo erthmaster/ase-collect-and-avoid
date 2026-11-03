@@ -8,21 +8,20 @@ namespace Game
 {
 	public class EnemyAI : MonoBehaviour
 	{
-		[HideInInspector] public NavMeshAgent NavMeshAgent;
 		[field: SerializeField] public float PlayerDetectionRadius { get; private set; } = 10;
+		[SerializeField] private MeshRenderer _redEyesRenderer;
 		
-		public IReadOnlyList<Transform> PatrolPoints => _patrolPoints;
-		private Transform PlayerTransform { get; set; }
-
-		private PatrolState PatrolState { get; set; }
-		private ChasingState ChasingState { get; set; }
+		private PatrolState _patrolState;
+		private ChasingState _chasingState;
 		
 		private readonly RaycastHit[] _raycastHits = new RaycastHit[10];
 		private StateMachine _stateMachine;
 		private List<Transform> _patrolPoints = new();
 		
-		private bool _isPlayerDetected;
-		
+		public NavMeshAgent NavMeshAgent { get; private set; }
+		public Transform PlayerTransform { get; private set; }
+		public bool IsPlayerDetected { get; private set; }
+		public IReadOnlyList<Transform> PatrolPoints => _patrolPoints;
 
 		public void Init(Transform playerTransform, List<Transform> patrolPoints)
 		{
@@ -35,20 +34,26 @@ namespace Game
 			_stateMachine = GetComponent<StateMachine>();
 			NavMeshAgent = GetComponent<NavMeshAgent>();
 			
-			PatrolState = new(_stateMachine, this);
-			ChasingState = new(_stateMachine, this);
+			_patrolState = new(_stateMachine, this);
+			_chasingState = new(_stateMachine, this);
 			
-			print(PatrolState);
-			// _stateMachine.ChangeState(PatrolState);
+			_stateMachine.AddTransition(_patrolState, _chasingState, () => IsPlayerDetected);
+			_stateMachine.AddTransition(_chasingState, _patrolState, () => !_chasingState.IsOnTrack());
+			
+			_stateMachine.ChangeState(_patrolState);
 		}
-		
+
+		private void Update()
+		{
+			_redEyesRenderer.enabled = _stateMachine.CurrentState == _chasingState;
+		}
+
 		public void FixedUpdate()
 		{
-			_isPlayerDetected = false;
+			IsPlayerDetected = false;
 			var ray = new Ray(transform.position, PlayerTransform.position - transform.position);
 			var size = Physics.RaycastNonAlloc(ray, _raycastHits, PlayerDetectionRadius, LayerMask.GetMask("Objects"));
 
-			Debug.DrawLine(transform.position, PlayerTransform.position - transform.position);
 			if(size > 0)
 			{
 				for (var i = 0; i < size; i++)
@@ -58,11 +63,10 @@ namespace Game
 					if (!hit.collider)
 						continue;
 					
-					Debug.Log("");
-					
-					if (hit.collider.gameObject.CompareTag("Player"))
+					if (hit.collider.gameObject.CompareTag("Player") && i <= 0)
 					{
-						_isPlayerDetected = true;
+						IsPlayerDetected = true;
+						_stateMachine.ChangeState(_chasingState);
 					}
 				}
 			}
@@ -70,7 +74,7 @@ namespace Game
 
 		private void OnDrawGizmosSelected()
 		{
-			Gizmos.color = _isPlayerDetected ? Color.green : Color.darkGreen;
+			Gizmos.color = IsPlayerDetected ? Color.green : Color.red;
 			Gizmos.DrawWireSphere(transform.position, PlayerDetectionRadius);
 		}
 	}

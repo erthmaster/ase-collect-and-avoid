@@ -6,31 +6,59 @@ namespace Game
 {
 	public class StateMachine : MonoBehaviour
 	{
-		private State _currentState;
+		private struct StateTransition
+		{
+			public State From;
+			public State To;
+			public Func<bool> Condition;
+
+			public StateTransition(State from, State to, Func<bool> condition)
+			{
+				From = from;
+				To = to;
+				Condition = condition;
+			}
+		}
+		
+		public State CurrentState { get; private set; }
+		private List<StateTransition> _stateTransitions = new();
+
+		public void AddTransition(State from, State to, Func<bool> condition)
+		{
+			_stateTransitions.Add(new StateTransition(from, to, condition));
+		}
 
 		public void ChangeState(State state)
 		{
-			_currentState?.OnExit();
-			_currentState = state;
-			_currentState.OnEnter();
+			CurrentState?.OnExit();
+			CurrentState = state;
+			CurrentState.OnEnter();
 		}
 		
 		public void Update()
 		{
-			if(_currentState != null)
-				_currentState.OnUpdate();
+			if(CurrentState != null)
+				CurrentState.OnUpdate();
+
+			foreach (var transition in _stateTransitions)
+			{
+				if ((transition.From == null || CurrentState == transition.From) && transition.Condition())
+				{
+					ChangeState(transition.To);
+				}
+			}
 		}
 
 		private void FixedUpdate()
 		{
-			if(_currentState != null)
-				_currentState.OnFixedUpdate();
+			if(CurrentState != null)
+				CurrentState.OnFixedUpdate();
 		}
 
 		private void OnDrawGizmos()
 		{
-			if(_currentState != null)
-				_currentState.OnGizmosDraw();
+			if(CurrentState != null)
+				CurrentState.OnGizmosDraw();
 		}
 	}
 }

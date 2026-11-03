@@ -18,13 +18,8 @@ namespace Game
 
 		public override void OnUpdate()
 		{
-			// Debug.Log($"Moving to: {_currentTarget.name}");
-			// Debug.Log($"Last Patrol Points: {_lastPatrolPoints.Count}");
 			if (Vector3.Distance(_currentTarget.position, EnemyAI.transform.position) < 1)
-			{
-				// Debug.Log("Retarget");
 				FindTargetAndMove();
-			}
 		}
 
 		private void FindTargetAndMove()
