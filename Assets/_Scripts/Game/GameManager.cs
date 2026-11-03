@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using PrimeTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace Game
@@ -20,6 +22,8 @@ namespace Game
 		[SerializeField] private TMP_Text _scoreText;
 		
 		[SerializeField] private AudioSource _audioSource;
+		[SerializeField] private Camera _camera;
+		[SerializeField] private ShakeSettings _loseCameraShake;
 
 		private PlayerInput.UIActions _uiInput;
 		private bool _isGamePaused;
@@ -51,7 +55,7 @@ namespace Game
 		private void OnCollisionCollision(Collectible collectible)
 		{
 			_currentScore++;
-			Destroy(collectible.gameObject);
+			collectible.OnPickup();
 			UpdateScore();
 			
 			_audioSource.Play();
@@ -79,6 +83,11 @@ namespace Game
 			_gameMenuPanel.SetActive(true);
 			_victoryText.SetActive(isVictory);
 			_loseText.SetActive(!isVictory);
+
+			if (!isVictory)
+			{
+				Tween.ShakeLocalPosition(_camera.transform, _loseCameraShake);
+			}
 		}
 
 		public void SetGamePaused(bool isPause)

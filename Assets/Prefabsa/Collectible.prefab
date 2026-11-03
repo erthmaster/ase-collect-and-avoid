@@ -137,6 +137,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Collectible
   _rotationSpeed: 200
+  _onCollectShake:
+    strength: {x: 0, y: 0, z: 0}
+    duration: 0
+    frequency: 0
+    enableFalloff: 0
+    falloffEase: 0
+    strengthOverTime:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    asymmetry: 0
+    easeBetweenShakes: 0
+    cycles: 0
+    startDelay: 0
+    endDelay: 0
+    useUnscaledTime: 0
+    _useFixedUpdate: 0
+    _updateType: 0
+  _collider: {fileID: 2479283855245048325}
 --- !u!135 &2479283855245048325
 SphereCollider:
   m_ObjectHideFlags: 0
