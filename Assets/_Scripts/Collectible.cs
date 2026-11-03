@@ -7,7 +7,6 @@ namespace Game
 	public class Collectible : MonoBehaviour
 	{
 		[SerializeField] private float _rotationSpeed;
-		[SerializeField] private ShakeSettings _onCollectShake;
 		[SerializeField] private Collider _collider;
 
 		private void Update()
